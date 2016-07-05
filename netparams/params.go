@@ -37,3 +37,10 @@ var SimNetParams = Params{
 	RPCClientPort: "18556",
 	RPCServerPort: "18554",
 }
+
+// SegNet4Params contains parameters to segregated witness network.
+var SegNet4Params = Params{
+	Params:&chaincfg.SegNet4Params,
+	RPCClientPort: "28902",
+	RPCServerPort: "28904",
+}

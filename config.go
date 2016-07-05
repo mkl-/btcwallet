@@ -50,6 +50,7 @@ type config struct {
 	AppDataDir    string `short:"A" long:"appdata" description:"Application data directory to save wallet database and logs"`
 	TestNet3      bool   `long:"testnet" description:"Use the test Bitcoin network (version 3) (default mainnet)"`
 	SimNet        bool   `long:"simnet" description:"Use the simulation test network (default mainnet)"`
+	SegNet        bool   `long:"segnet" description:"Use the segregated witness (version 4) network (default mainnet)"`
 	NoInitialLoad bool   `long:"noinitialload" description:"Defer wallet creation/opening on startup and enable loading wallets over RPC"`
 	DebugLevel    string `short:"d" long:"debuglevel" description:"Logging level {trace, debug, info, warn, error, critical}"`
 	LogDir        string `long:"logdir" description:"Directory to log output."`
@@ -306,8 +307,12 @@ func loadConfig() (*config, []string, error) {
 		activeNet = &netparams.SimNetParams
 		numNets++
 	}
+	if cfg.SegNet {
+		activeNet = &netparams.SegNet4Params
+		numNets++
+	}
 	if numNets > 1 {
-		str := "%s: The testnet and simnet params can't be used " +
+		str := "%s: The testnet and simnet and segnet params can't be used " +
 			"together -- choose one"
 		err := fmt.Errorf(str, "loadConfig")
 		fmt.Fprintln(os.Stderr, err)
